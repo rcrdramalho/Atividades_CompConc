@@ -1,0 +1,46 @@
+O cálculo com uso de threads se mostrou muito mais preciso com a analise de alguns testes:
+
+ricardo@ricardo-System-Product-Name:~/Documents/Prog/Comp Conc/cods-lab2/atividade3$ ./teste 80 vet.bin
+ricardo@ricardo-System-Product-Name:~/Documents/Prog/Comp Conc/cods-lab2/atividade3$ ./prod vet.bin 4
+Produto esperado: -85460.99511718750000000000000000
+Produto obtido:   -85460.97656250000000000000000000
+Variacao relativa: 0.00000021711294095894118072
+ricardo@ricardo-System-Product-Name:~/Documents/Prog/Comp Conc/cods-lab2/atividade3$ ./prod vet.bin 1
+Produto esperado: -85460.99511718750000000000000000
+Produto obtido:   -85461.04687500000000000000000000
+Variacao relativa: 0.00000060563081660802708939
+ricardo@ricardo-System-Product-Name:~/Documents/Prog/Comp Conc/cods-lab2/atividade3$ ./prod vet.bin 40
+Produto esperado: -85460.99511718750000000000000000
+Produto obtido:   -85461.00000000000000000000000000
+Variacao relativa: 0.00000005713498296699981438
+ricardo@ricardo-System-Product-Name:~/Documents/Prog/Comp Conc/cods-lab2/atividade3$ ./prod vet.bin 60
+Produto esperado: -85460.99511718750000000000000000
+Produto obtido:   -85461.03906250000000000000000000
+Variacao relativa: 0.00000051421483249214361422
+
+
+
+Também foi possível notar com esses teste que quanto maior o numero de threads, menor a variação relativa.
+Outro ponto importante é a velocidade do cálculo:
+ricardo@ricardo-System-Product-Name:~/Documents/Prog/Comp Conc/cods-lab2/atividade3$ ./teste 800000000 vet.bin
+ricardo@ricardo-System-Product-Name:~/Documents/Prog/Comp Conc/cods-lab2/atividade3$ ./prod vet.bin 4
+Produto esperado: 942968517.11716651916503906250000000
+Produto obtido:   943546304.00000000000000000000000000
+Variacao relativa: 0.00061273190658539533615112
+
+Para execução do comando ./teste com 800000000 o código demorou mais de 1 minuto para criar o arq de teste, 
+enquanto com o uso de threads o cálculo foi quase instântaneo (cerca de 2 segundos)
+
+
+
+ricardo@ricardo-System-Product-Name:~/Documents/Prog/Comp Conc/cods-lab2/atividade3$ ./prod vet.bin 900000
+--ERRO: pthread_create()
+ricardo@ricardo-System-Product-Name:~/Documents/Prog/Comp Conc/cods-lab2/atividade3$ ./prod vet.bin 90000
+Produto esperado: 942968517.11716651916503906250000000
+Produto obtido:   942965888.00000000000000000000000000
+Variacao relativa: 0.00000278812831311370246112
+
+No mesmo exemplo porém com uso de muitos mais threads o programa por vezes não executou, e quando executou
+(exemplo 90000 threads) demorou cerca de 10 segundos para execução, creio que por entrar em políticas de escalonamento
+uma vez que o processador utilizado possuí 8 núcleos, talvez com 90000 núcleos ele executasse mais rapidamente sem 
+usar políticas de escalonamento.
