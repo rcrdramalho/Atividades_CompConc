@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define PRINTA
+//#define PRINTA
 
 int main(int argc, char* argv[]) {
     float *matriz1, *matriz2, *matriz3; // Matrizes
@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
 
     // Recebe os argumentos de entrada
     if (argc < 2) {
-        fprintf(stderr, "Digite: %s <arquivo entrada>\n", argv[0]);
+        fprintf(stderr, "Digite: %s <arquivo entrada> <arquivo saida>\n", argv[0]);
         return 1;
     }
 
@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
     }
 
     // Calcula as dimensões da segunda matriz e a matriz resultante
-    tam = M * N;
+    tam = linhas * colunas;
 
     // Aloca memória para as matrizes
     matriz1 = (float*) malloc(sizeof(float) * tam);
@@ -101,6 +101,26 @@ int main(int argc, char* argv[]) {
         printf("\n");
     }
     #endif
+
+    FILE *descritorArquivo2;
+    descritorArquivo2 = fopen(argv[2], "wb");
+    ret = fwrite(&linhas, sizeof(int), 1, descritorArquivo2);
+    ret = fwrite(&colunas, sizeof(int), 1, descritorArquivo2);
+    ret = fwrite(matriz1, sizeof(float), tam, descritorArquivo2);
+    if(ret < tam) {
+      fprintf(stderr, "Erro de escrita no  arquivo\n");
+      return 4;
+     }
+    ret = fwrite(matriz2, sizeof(float), tam, descritorArquivo2);
+    if(ret < tam) {
+      fprintf(stderr, "Erro de escrita no  arquivo\n");
+      return 4;
+    }
+    ret = fwrite(matriz3, sizeof(float), tam, descritorArquivo2);
+    if(ret < tam) {
+      fprintf(stderr, "Erro de escrita no  arquivo\n");
+      return 4;
+    }
 
     // Finaliza o uso das variáveis
     free(matriz1);
