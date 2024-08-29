@@ -3,7 +3,7 @@
 #include<time.h>
 
 //descomentar o define abaixo caso deseje imprimir uma versao truncada da matriz gerada no formato texto
-#define TEXTO 
+//#define TEXTO 
 
 int main(int argc, char*argv[]) {
    float *matriz1, *matriz2; //matriz que será gerada
