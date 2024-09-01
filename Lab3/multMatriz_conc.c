@@ -69,9 +69,18 @@ int main(int argc, char* argv[]) {
     matriz1 = (float*) malloc(sizeof(float) * tam);
     matriz2 = (float*) malloc(sizeof(float) * tam);
     matriz3 = (float*) malloc(sizeof(float) * linhas * linhas);
-
-    if (!matriz1 || !matriz2 || !matriz3) {
-        fprintf(stderr, "Erro de alocação da memória\n");
+    if (!matriz1) {
+        fprintf(stderr, "Erro de alocação da memória da matriz 1\n");
+        return 4;
+    }
+    matriz2 = (float*) malloc(sizeof(float) * tam);
+    if (!matriz2) {
+        fprintf(stderr, "Erro de alocação da memória da matriz 2\n");
+        return 4;
+    }
+    matriz3 = (float*) malloc(sizeof(float) * tam);
+    if (!matriz3) {
+        fprintf(stderr, "Erro de alocação da memória da matriz 3\n");
         return 4;
     }
 
