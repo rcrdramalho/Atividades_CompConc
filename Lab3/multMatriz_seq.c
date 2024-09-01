@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "timer.h"
+#include "timer.h" //Tive que compilar o código com -lrt para que funcionasse
 
-//#define PRINTA
 
 int main(int argc, char* argv[]) {
     float *matriz1, *matriz2, *matriz3; // Matrizes
@@ -10,7 +9,7 @@ int main(int argc, char* argv[]) {
     long long int tam; // Quantidade de elementos nas matrizes
     FILE *descritorArquivo; // Descritor do arquivo de entrada
     size_t ret; // Retorno da função de leitura no arquivo de entrada
-    double inicio, fim, delta;
+    double inicio, fim, delta; // Contadores
 
     // Recebe os argumentos de entrada
     if (argc < 2) {
@@ -18,8 +17,9 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
+    // Inicia o contador para registrar tempo de execução do programa
     GET_TIME(inicio);
-    // Abre o arquivo para leitura binária
+    // Abre o arquivo para ler as matrizes
     descritorArquivo = fopen(argv[1], "rb");
     if (!descritorArquivo) {
         fprintf(stderr, "Erro de abertura do arquivo\n");
@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
         return 3;
     }
 
-    // Calcula as dimensões da segunda matriz e a matriz resultante
+    // Calcula o tamanho das matrizes
     tam = linhas * colunas;
 
     // Aloca memória para as matrizes
@@ -81,30 +81,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    // Imprime as matrizes
-    #ifdef PRINTA
-    printf("Matriz 1 (%dx%d):\n", linhas, colunas);
-    for (int i = 0; i < linhas; i++) {
-        for (int j = 0; j < colunas; j++)
-            printf("%.6f ", matriz1[i * colunas + j]);
-        printf("\n");
-    }
-
-    printf("Matriz 2 (%dx%d):\n", colunas, linhas);
-    for (int i = 0; i < colunas; i++) {
-        for (int j = 0; j < linhas; j++)
-            printf("%.6f ", matriz2[i * linhas + j]);
-        printf("\n");
-    }
-
-    printf("Matriz Resultante (%dx%d):\n", linhas, linhas);
-    for (int i = 0; i < linhas; i++) {
-        for (int j = 0; j < linhas; j++)
-            printf("%.6f ", matriz3[i * linhas + j]);
-        printf("\n");
-    }
-    #endif
-
+    // Cria arquivo de escrita para escrever as 3 matrizes
     FILE *descritorArquivo2;
     descritorArquivo2 = fopen(argv[2], "wb");
     ret = fwrite(&linhas, sizeof(int), 1, descritorArquivo2);
@@ -131,6 +108,8 @@ int main(int argc, char* argv[]) {
     free(matriz3);
     fclose(descritorArquivo);
     fclose(descritorArquivo2);
+
+    // Finaliza o contador
     GET_TIME(fim);
     delta = fim-inicio;
     printf("Tempo de execução: %.26f segundos.\n", delta);
