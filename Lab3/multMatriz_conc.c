@@ -1,19 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include "timer.h"
+#include "timer.h" // Tive que compilar o código com -lrt para que funcionasse
 
-float *matriz1, *matriz2, *matriz3;
-int linhas, colunas, nthreads;
+float *matriz1, *matriz2, *matriz3; // Variáveis das matrizes
+int linhas, colunas, nthreads; // Dimensões das matrizes e quantidade de threads
 
 void *multiplicaMatriz(void *tid) {
-    long int id = (long int) tid; 
-    int ini, fim, bloco;
+    long int id = (long int) tid; // id de cada thread criada
+    int ini, fim, bloco; // Variáveis e inicio e parada do código
 
-    bloco = linhas / nthreads; 
-    ini = id * bloco; 
-    fim = (id == nthreads - 1) ? linhas : ini + bloco;
+    bloco = linhas / nthreads; //Tamanho do bloco a ser calculado 
+    ini = id * bloco; // Inicio do trabalho da thread
+    fim = (id == nthreads - 1) ? linhas : ini + bloco; // Parada
 
+    //Multiplica as matrizes
     for (int i = ini; i < fim; i++) {
         for (int j = 0; j < linhas; j++) {
             float soma = 0.0;
@@ -38,7 +39,10 @@ int main(int argc, char* argv[]) {
     }
 
 
+    // Inicia o contador
     GET_TIME(inicio);
+
+    // Abre arquivo com as matrizes de entrada
     descritorArquivo = fopen(argv[1], "rb");
     if (!descritorArquivo) {
         fprintf(stderr, "Erro de abertura do arquivo\n");
@@ -58,7 +62,10 @@ int main(int argc, char* argv[]) {
         return 3;
     }
 
+    // Calcula tamanho das matrizes
     long long int tam = linhas * colunas;
+
+    // Aloca espaço para as matrizes
     matriz1 = (float*) malloc(sizeof(float) * tam);
     matriz2 = (float*) malloc(sizeof(float) * tam);
     matriz3 = (float*) malloc(sizeof(float) * linhas * linhas);
@@ -92,10 +99,12 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    // Inicia threads que calcularão os produtos internos para cada célula
     for (long int i = 0; i < nthreads; i++) {
         pthread_join(threads[i], NULL);
     }
 
+    // Cria o arquivo de escrita para saída
     FILE *descritorArquivo2;
     descritorArquivo2 = fopen(argv[2], "wb");
     ret = fwrite(&linhas, sizeof(int), 1, descritorArquivo2);
@@ -122,6 +131,8 @@ int main(int argc, char* argv[]) {
     free(threads);
     fclose(descritorArquivo);
     fclose(descritorArquivo2);
+
+    // Finaliza contador e registra o tempo de execução
     GET_TIME(fim);
     delta = fim-inicio;
     printf("Tempo de execução: %.26f segundos.\n", delta);
