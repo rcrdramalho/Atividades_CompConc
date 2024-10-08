@@ -1,1 +1,3 @@
-Para contemplar a tarefa de dar prioridade para as operações de escrita removemos a implementação da variável rwlock da biblioteca pthreads. No lugar desta usamos variáveis condicionais da mesma biblioteca e sempre que uma operação de escrita pede para iniciar ela verifica se a fila das threads que querem escrever está vazia. Também foi adicionada uma variável para controle caso uma thread de escrita não esteja na fila mas esteja executando.
+Para contemplar a tarefa de dar prioridade para as operações de escrita removemos a implementação da variável rwlock da biblioteca pthreads. 
+No lugar desta usamos variáveis condicionais da mesma biblioteca e sempre que uma operação de escrita pede para iniciar ela verifica se a fila das threads que querem escrever está vazia. 
+Também foi adicionada uma variável para controle caso uma thread de escrita não esteja na fila mas esteja executando.
