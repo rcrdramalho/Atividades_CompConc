@@ -82,22 +82,28 @@ void* tarefa(void* arg) {
         op = rand() % 100;  
         if (op < 98) {
             inic_read();                         // Inicia a leitura
+            printf("Thread %li iniciou leitura.\n", id);
             Member(i % MAX_VALUE, head_p);    
-            fim_read();                          // Termina a leitura
+            fim_read();  
+            printf("Thread %li terminou leitura.\n", id);// Termina a leitura
             read++;
         } 
         // 1% das operações serão inserções
         else if (op < 99) {
             inic_write();                        // Inicia a escrita
+            printf("Thread %li iniciou escrita.\n", id);
             Insert(i % MAX_VALUE, &head_p);      
             fim_write();                         // Termina a escrita
+            printf("Thread %li terminou escrita.\n", id);
             in++;
         } 
         // 1% das operações serão remoções
         else {
             inic_write();                        // Inicia a escrita
+            printf("Thread %li iniciou escrita.\n", id);
             Delete(i % MAX_VALUE, &head_p);   
             fim_write();                         // Termina a escrita
+            printf("Thread %li terminou escrita.\n", id);
             out++;
         }
     }
